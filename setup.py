@@ -19,6 +19,7 @@ setup(
     entry_points={
         'console_scripts': [
         	'bojarak2 = robot_kar.bojarak2:main',
+        	'bojafel = robot_kar.bojafel:main'
         ],
     },
 )

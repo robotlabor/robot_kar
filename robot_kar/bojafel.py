@@ -142,17 +142,15 @@ class DrlStartNode(Node):
         num_rows = 2
         num_cols = 3
         num_levels = 5
-        x_start = -639
-        y_start = 286
+        x_start = -439
+        y_start = 386
         z_start = 413
         x_step = -270
         y_step = -300
         z_step = 33
-        home_position = "posx(333, -59, 1017, 90, 180, 0)"
-        watch_position = "posx(-101, -567, 760, 0, 180, 0)"
-        place_position = "posx(406, -29, 733, 90, 180, 0)"
-        place_offset = "posx(406, -29, 750, 90, 180, 0)"
-        help_pos = "posx(320, -559, 765, 45, 180, 0)"
+        home_position = "posx(-527, 35, 847, -90, 180, 0)"
+        watch_position = "posx(-101, 567, 760, 0, 180, 0)"
+        help_pos = "posx(-320, 559, 765, 45, 180, 0)"
 
         drl_code_template = """set_velj(25); set_velx(40); set_accj(25); set_accx(40);"""
 
@@ -167,7 +165,7 @@ class DrlStartNode(Node):
                         z_pos = z_start + level * z_step
                         commands.append({
                             "place_position": f"posx({x_pos}, {y_pos}, {z_pos}, -90, 180, 0)",
-                            "place_offset": f"posx({x_pos}, {y_pos}, {z_pos+100}, -90, 180, 0)",
+                            "place_offset": f"posx({x_pos}, {y_pos}, {z_pos+400}, -90, 180, 0)",
                             "home_position": home_position,
                             "watch_position": watch_position
                         })
@@ -235,8 +233,9 @@ class DrlStartNode(Node):
                     time.sleep(0.5)
                     drl_code = drl_code_template + "movel(posx(0, 0, 100, 0, 0, 0), mod=DR_MV_MOD_REL);\n"
                     drl_code += f"movejx({help_pos}, radius=100, sol=7);\n"
-                    drl_code += f"movejx({place_offset}, sol=7);\n"
+                    drl_code += f"movejx({command['place_offset']}, sol=7);\n"
                     self.run_and_wait(robot_system_mode, drl_code)
+                    time.sleep(0.5)
 
                     weight2 = self.get_workpiece_weight()
                     if weight2 > weight + 0.5:
@@ -254,15 +253,16 @@ class DrlStartNode(Node):
                     self.run_and_wait(robot_system_mode, drl_code)
                     continue
 
-                drl_code = drl_code_template + f"movel({place_position});\n"
+                drl_code = drl_code_template + f"movel({command['place_position']});\n"
                 self.run_and_wait(robot_system_mode, drl_code)
                 self.rg.open_gripper()
                 time.sleep(0.5)
-                drl_code = drl_code_template + f"movejx({command['home_position']}, sol=7);\n"
+                drl_code = drl_code_template + f"movel({command['place_offset']});\n"
+                drl_code += f"movejx({command['home_position']}, sol=7);\n"
                 self.run_and_wait(robot_system_mode, drl_code)
                 break
 
-        self.get_logger().info("megtelt a robot")
+        self.get_logger().info("Platform is full")
 
 
 def get_options():

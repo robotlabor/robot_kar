@@ -18,7 +18,7 @@ The robot uses an OnRobot gripper with a custom-designed attachment for cone han
 - Doosan ROS 2 package
 - Doosan M1013 robot or Doosan simulation
 - OnRobot gripper for real operation
-- ZED-based machine vision system for cone collection
+- YOLO-based machine vision system for cone collection
 
 The Doosan ROS 2 package must be installed in the same ROS 2 workspace:
 

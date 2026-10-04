@@ -4,7 +4,7 @@ ROS 2 package for controlling a Doosan M1013 robot arm used for autonomous cone 
 
 The system consists of two main operations:
 
-- **Cone collection (`bofafel`)** – detects a cone using a ZED-based machine vision system, collects it from the test area, and places it onto the mobile platform according to the current platform state.
+- **Cone collection (`bofafel`)** – detects a cone using a YOLO-based machine vision system, collects it from the test area, and places it onto the mobile platform according to the current platform state.
 - **Cone placement (`bojarak2`)** – takes a cone from the mobile platform and places it at a fixed placement position.
 
 The robot uses an OnRobot gripper with a custom-designed attachment for cone handling.
